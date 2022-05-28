@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:form>
+    <h:outputLabel for="Username" value="Username"/>
+    <h:inputText id="Username" value="#{userBean.user.username}"/>
+    <h:outputLabel for="Password" value="Password"/>
+    <h:inputText id="Password" value="#{userBean.user.password}"/>
+    <h:commandButton value="Submit"
+                     action="#{userBean.addUser}">
+        <f:ajax execute="@form" render=":table"/>
+    </h:commandButton>
+</h:form>
+<h:dataTable id="table" value="#{userBean.users}" var="user">
+    <h:column>#{user.id}</h:column>
+    <h:column>#{user.username}</h:column>
+    <h:column>#{user.password}</h:column>
+</h:dataTable>
+</html>
