@@ -19,8 +19,7 @@ public class UserBean implements Serializable {
 
     private List<User> users;
 
-    @Inject
-    private UserService userService;
+    private UserService userService = new UserService();
 
 
     public UserBean() {
