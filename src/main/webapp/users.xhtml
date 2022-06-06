@@ -20,4 +20,9 @@
     <h:column>#{user.username}</h:column>
     <h:column>#{user.password}</h:column>
 </h:dataTable>
+<h:dataTable id="products" value="#{userBean.products}" var="product">
+    <h:column>#{product.id}</h:column>
+    <h:column>#{product.name}</h:column>
+    <h:column>#{product.quantity}</h:column>
+</h:dataTable>
 </html>

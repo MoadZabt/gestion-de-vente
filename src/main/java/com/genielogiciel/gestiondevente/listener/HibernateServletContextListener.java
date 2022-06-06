@@ -13,16 +13,27 @@ public class HibernateServletContextListener implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent sce) {
         SessionFactory sf = (SessionFactory) sce.getServletContext().getAttribute("SessionFactory");
         sf.close();
+        SessionFactory sfgs = (SessionFactory) sce.getServletContext().getAttribute("SessionFactoryGS");
+        sfgs.close();
     }
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         SessionFactory sessionFactory = createSessionFactory();
         sce.getServletContext().setAttribute("SessionFactory", sessionFactory);
+        SessionFactory sessionFactoryGS = createGStockSessionFactory();
+        sce.getServletContext().setAttribute("SessionFactoryGS", sessionFactoryGS);
     }
 
     private static SessionFactory createSessionFactory() {
         URL url = HibernateServletContextListener.class.getResource("/hibernate.cfg.xml");
+        Configuration config = new Configuration();
+        config.configure(url);
+        SessionFactory sf = config.buildSessionFactory();
+        return sf;
+    }
+    private static SessionFactory createGStockSessionFactory() {
+        URL url = HibernateServletContextListener.class.getResource("/hibernate.cfg.g_stock.xml");
         Configuration config = new Configuration();
         config.configure(url);
         SessionFactory sf = config.buildSessionFactory();

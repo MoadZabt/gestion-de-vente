@@ -1,6 +1,8 @@
 package com.genielogiciel.gestiondevente.bean.user;
 
+import com.genielogiciel.gestiondevente.domain.Product;
 import com.genielogiciel.gestiondevente.domain.User;
+import com.genielogiciel.gestiondevente.model.ProductModel;
 import com.genielogiciel.gestiondevente.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -21,10 +23,15 @@ public class UserBean implements Serializable {
 
     private UserService userService = new UserService();
 
+    private ProductModel productModel = new ProductModel();
+
+    private List<Product> products;
+
 
     public UserBean() {
         users = userService.findAll();
         user = new User();
+        products = productModel.findAll();
     }
 
     public void addUser() {
@@ -47,4 +54,13 @@ public class UserBean implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
 }
