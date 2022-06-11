@@ -1,79 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://java.sun.com/jsf/core">
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 <h:head>
-    <h:outputStylesheet name="primefaces-nova-light/theme.css" />
-    <h:outputScript library="primefaces" name="jquery/jquery.js" />
+    <link rel="stylesheet" href="css/app.css"/>
 </h:head>
+<div class="container bootdey">
+    <div class="col-md-12">
+        <section class="panel">
+            <div class="panel-body">
+                <div class="pull-right">
+                    <ul class="pagination pagination-sm pro-page-list">
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">»</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-<h:body>
-    <div class="product card">
-        <h:form id="form">
-            <p:dataView var="product" value="#{productBean.products}" rows="12" paginator="true"
-                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                        gridIcon="pi pi-th-large" listIcon="pi pi-bars"
-                        layout="grid" gridRowStyleClass="p-lg-6 p-xl-4" flex="true">
+        <div class="row product-list">
+            <ui:repeat value="#{productBean.products}" var="product">
+                <div class="col-md-4">
+                    <section class="panel">
+                        <div class="pro-img-box">
+                            <img src="http://localhost:8080/gestion_de_stock_war_exploded/images/33/ign-uk-deals-may-11-2022-1652256204504.png" alt=""/>
+                            <a href="#" class="adtocart">
+                                <i class="fa fa-shopping-cart"></i>
+                            </a>
+                        </div>
 
-                <p:dataViewGridItem>
-                    <div class="product-grid-item card border-1">
-                        <div class="product-grid-item-top">
-                            <div>
-                                <!--                                <i class="pi pi-tag product-category-icon"/>-->
-                                <!--                                <span class="product-category">#{product.category}</span>-->
-                            </div>
-                            <span class="product-badge status-#{product.inventoryStatus}">#{product.inventoryStatus}</span>
+                        <div class="panel-body text-center">
+                            <h4>
+                                <a href="#" class="pro-title">
+                                    #{product.name}
+                                </a>
+                            </h4>
+                            <p class="price">#{product.price}</p>
                         </div>
-                        <div class="product-grid-item-content">
-                            <p:graphicImage library="images" name="/images/33/ign-uk-deals-may-11-2022-1652256204504.png"/>
-                            <div class="product-name">#{product.name}</div>
-                            <div class="product-description">#{product.description}</div>
-                            <!--                            <p:rating readonly="true" value="#{product.rating}"/>-->
-                        </div>
-                        <div class="product-grid-item-bottom">
-                            <h:outputText value="#{product.price}" styleClass="product-price">
-                                <f:convertNumber currencySymbol="$" type="currency"/>
-                            </h:outputText>
-                            <p:commandButton type="button"
-                                             value="Add To Cart"
-                                             icon="pi pi-shopping-cart"
-                                             disabled="#{product.inventoryStatus == 'outofstock'}">
-                            </p:commandButton>
-                        </div>
-                    </div>
-                </p:dataViewGridItem>
-
-                <p:dataViewListItem>
-                    <div class="product-list-item">
-                        <h:graphicImage value="#{product.imagePath}"/>
-                        <div class="product-list-detail">
-                            <div class="product-name">#{product.name}</div>
-                            <div class="product-description">#{product.description}</div>
-                            <!--                            <p:rating readonly="true" value="#{product.rating}"/>-->
-                            <!--                            <i class="pi pi-tag product-category-icon"/><span-->
-                            <!--                                class="product-category">#{product.category}</span>-->
-                        </div>
-                        <div class="product-list-action">
-                            <h:outputText value="#{product.price}" styleClass="product-price">
-                                <f:convertNumber currencySymbol="$" type="currency"/>
-                            </h:outputText>
-                            <p:commandButton type="button"
-                                             value="Add To Cart"
-                                             icon="pi pi-shopping-cart"
-                                             disabled="#{product.inventoryStatus == 'OUTOFSTOCK'}">
-                            </p:commandButton>
-                            <span class="product-badge status-#{product.inventoryStatus}">#{product.inventoryStatus}</span>
-                        </div>
-                    </div>
-                </p:dataViewListItem>
-            </p:dataView>
-
-        </h:form>
+                    </section>
+                </div>
+            </ui:repeat>
+        </div>
     </div>
-</h:body>
+</div>
+
 </html>
