@@ -7,8 +7,13 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
+<h:head>
+    <h:outputStylesheet name="primefaces-nova-light/theme.css" />
+    <h:outputScript library="primefaces" name="jquery/jquery.js" />
+</h:head>
+
 <h:body>
-    <div class="product ui-card">
+    <div class="product card">
         <h:form id="form">
             <p:dataView var="product" value="#{productBean.products}" rows="12" paginator="true"
                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
@@ -25,7 +30,7 @@
                             <span class="product-badge status-#{product.inventoryStatus}">#{product.inventoryStatus}</span>
                         </div>
                         <div class="product-grid-item-content">
-                            <p:graphicImage name="images/product/#{product.path}" library="demo"/>
+                            <p:graphicImage library="images" name="/images/33/ign-uk-deals-may-11-2022-1652256204504.png"/>
                             <div class="product-name">#{product.name}</div>
                             <div class="product-description">#{product.description}</div>
                             <!--                            <p:rating readonly="true" value="#{product.rating}"/>-->
@@ -45,7 +50,7 @@
 
                 <p:dataViewListItem>
                     <div class="product-list-item">
-                        <p:graphicImage name="demo/images/product/#{product.path}"/>
+                        <h:graphicImage value="#{product.imagePath}"/>
                         <div class="product-list-detail">
                             <div class="product-name">#{product.name}</div>
                             <div class="product-description">#{product.description}</div>

@@ -1,7 +1,17 @@
 package com.genielogiciel.gestiondevente.domain;
 
+
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.util.SerializableSupplier;
+
+import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
+import javax.imageio.ImageIO;
 import javax.persistence.*;
-import java.io.Serializable;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 @Entity
 @Table(name = "products")
@@ -37,9 +47,9 @@ public class Product implements Serializable {
     private float price;
 
     @Column
-    private  String path;
+    private String path;
 
-    public  String getPath() {
+    public String getPath() {
         return path;
     }
 
@@ -89,6 +99,12 @@ public class Product implements Serializable {
 
     public String getInventoryStatus() {
         return this.quantity >= 10 ? "instock" : (this.quantity <= 0 ? "outofstock" : "lowstock");
+    }
+
+    public String getImagePath() {
+        String imgPath = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+        System.out.println(imgPath);
+        return imgPath;
     }
 
 }
