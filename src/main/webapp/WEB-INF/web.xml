@@ -40,7 +40,7 @@
     <session-timeout>60</session-timeout>
   </session-config>
   <welcome-file-list>
-    <welcome-file>index.xhtml</welcome-file>
+    <welcome-file>products.xhtml</welcome-file>
   </welcome-file-list>
 
   <listener>

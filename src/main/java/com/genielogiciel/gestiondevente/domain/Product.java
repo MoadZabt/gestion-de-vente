@@ -1,10 +1,11 @@
 package com.genielogiciel.gestiondevente.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "products")
-public class Product {
+public class Product implements Serializable {
     public Product() {
         super();
     }
@@ -86,6 +87,8 @@ public class Product {
         this.price = price;
     }
 
-
+    public String getInventoryStatus() {
+        return this.quantity >= 10 ? "instock" : (this.quantity <= 0 ? "outofstock" : "lowstock");
+    }
 
 }
