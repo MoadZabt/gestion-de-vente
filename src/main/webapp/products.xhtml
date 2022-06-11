@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="css/app.css"/>
 </h:head>
 <div class="container bootdey">
-    <div class="col-md-12">
+    <div class="col-lg-12">
         <section class="panel">
             <div class="panel-body">
                 <div class="pull-right">
@@ -39,10 +39,10 @@
 
         <div class="row product-list">
             <ui:repeat value="#{productBean.products}" var="product">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <section class="panel">
                         <div class="pro-img-box">
-                            <img src="http://localhost:8080/gestion_de_stock_war_exploded/images/33/ign-uk-deals-may-11-2022-1652256204504.png" alt=""/>
+                            <img src="http://localhost:8080/gestion_de_stock_war_exploded/#{product.path}" alt="" height="220"/>
                             <a href="#" class="adtocart">
                                 <i class="fa fa-shopping-cart"></i>
                             </a>
