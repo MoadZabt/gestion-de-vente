@@ -31,7 +31,7 @@ public class UserDAO implements UserDAOInterface{
 
     @Override
     public void update(User admin) {
-
+        currentSession.saveOrUpdate(admin);
     }
 
     @Override

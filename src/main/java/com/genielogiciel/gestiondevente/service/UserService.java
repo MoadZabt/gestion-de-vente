@@ -42,4 +42,11 @@ public class UserService implements Serializable {
         userDAO.closeCurrentSessionWithTransaction();
         return users;
     }
+
+    public void update(User user) {
+        userDAO.openCurrentSessionWithTransaction();
+        userDAO.update(user);
+        userDAO.closeCurrentSessionWithTransaction();
+    }
+
 }

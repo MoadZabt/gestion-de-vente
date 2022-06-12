@@ -1,14 +1,21 @@
 package com.genielogiciel.gestiondevente.bean.user;
 
+import com.genielogiciel.gestiondevente.domain.Order;
+import com.genielogiciel.gestiondevente.domain.OrderDetails;
 import com.genielogiciel.gestiondevente.domain.Product;
-import com.genielogiciel.gestiondevente.model.ProductModel;
+import com.genielogiciel.gestiondevente.domain.User;
+import com.genielogiciel.gestiondevente.model.OrderDetailsModel;
+import com.genielogiciel.gestiondevente.model.OrderModel;
+import com.genielogiciel.gestiondevente.model.ProductModelGS;
+import com.genielogiciel.gestiondevente.service.UserService;
+import org.primefaces.shaded.json.JSONArray;
+import org.primefaces.shaded.json.JSONObject;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +24,13 @@ import java.util.Map;
 @ViewScoped
 public class ProductBean implements Serializable {
 
-    private ProductModel productModel = new ProductModel();
+    private ProductModelGS productModel = new ProductModelGS();
+
+    private OrderModel orderModel = new OrderModel();
+
+    private OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
+
+    private UserService userService = new UserService();
 
     private List<Product> products;
 
@@ -90,22 +103,46 @@ public class ProductBean implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
         this.currentPage = Integer.parseInt(params.get("currentPage") == null ? "0" : params.get("currentPage"));
-        System.out.println(currentPage);
+        String productsToOrder = params.get("productsToOrder");
+        if(productsToOrder != null) {
+            JSONArray jsonArray = new JSONArray(productsToOrder);
+            List<OrderDetails> orderDetailsList = new ArrayList<>();
+            List<Order> orderList = new ArrayList<>();
+            User user = userService.findById(22L);
+            float totalPrice = 0.0f;
+            System.out.println(jsonArray);
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = new JSONObject(jsonArray.get(i).toString());
+                Product product = productModel.find(Long.parseLong(jsonObject.get("id").toString()));
+                int productQuantity = Integer.parseInt(jsonObject.get("count").toString());
+                OrderDetails orderDetails = new OrderDetails();
+                orderDetails.setProductId(product.getId());
+                orderDetails.setQuantity(productQuantity);
+                orderDetails.setTotalPrice(Float.parseFloat(jsonObject.get("total").toString()));
+                orderDetailsModel.create(orderDetails);
+
+                orderDetailsList.add(orderDetails);
+                totalPrice += orderDetails.getTotalPrice();
+            }
+            Order order = new Order();
+            order.setOrderDetails(orderDetailsList);
+            order.setTotalPrice(totalPrice);
+            order.setShipped(false);
+            order.setShippingDate(LocalDate.now().plusDays(7));
+            order.setUser(user);
+            orderModel.create(order);
+            orderList.add(order);
+        }
         this.rowsPerPage = 12;
-        System.out.println(this.rowsPerPage);
         this.totalRows = productModel.size();
-        System.out.println(this.totalRows);
         this.totalPages = (int) (Math.ceil((totalRows - 1) / rowsPerPage));
 
         for(int page = 0; page <= totalPages; page++){
             pages.add(String.valueOf(page));
         }
 
-        System.out.println(this.totalPages);
         int fromRow = currentPage * rowsPerPage;
-        System.out.println(fromRow);
         this.products = productModel.findAllPaginated(fromRow, rowsPerPage);
-        System.out.println(this.pages);
     }
 
 }

@@ -3,11 +3,9 @@ package com.genielogiciel.gestiondevente.domain;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "order_details")
 public class OrderDetails {
 
     @Id
@@ -17,27 +15,16 @@ public class OrderDetails {
     @Column
     private int quantity;
 
-    @OneToOne(cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST
-    })
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @OneToMany(cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST
-    })
-    @JoinColumn(name = "order_id")
-    private List<Order> order;
-
     @Column(name = "total_price")
     @ColumnDefault(value = "0")
     private float totalPrice;
+
+    @ManyToOne
+    @JoinColumn(name="order_id")
+    private Order order;
+
+    @Column(name = "product_id")
+    private Long product_id;
 
     public Long getId() {
         return id;
@@ -63,19 +50,21 @@ public class OrderDetails {
         this.quantity = quantity;
     }
 
-    public Product getProduct() {
-        return product;
+    public Long getProductId() {
+        return product_id;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Long product_id) {
+        this.product_id = product_id;
     }
 
-    public List<Order> getOrder() {
+    public Order getOrder() {
         return order;
     }
 
-    public void setOrder(List<Order> order) {
+    public void setOrder(Order order) {
         this.order = order;
     }
+
+
 }

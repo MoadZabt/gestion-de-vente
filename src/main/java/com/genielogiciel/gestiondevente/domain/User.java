@@ -23,9 +23,8 @@ public class User implements Serializable {
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.REFRESH,
-            CascadeType.PERSIST
-    })
-    @JoinColumn(name = "order_id")
+            CascadeType.PERSIST,
+    }, mappedBy = "user")
     private List<Order> order;
 
     public Long getId() {

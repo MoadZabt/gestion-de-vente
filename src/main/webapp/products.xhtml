@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
@@ -25,14 +26,14 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">WebSiteName</a>
+            <a class="navbar-brand" href="#{request.contextPath}/products.xhtml">Gestion De Vente</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Page 1</a></li>
-            <li><a href="#">Page 2</a></li>
+            <li class="#{request.requestURI.contains('products.xhtml') ? 'active' : ''}"><a href="#{request.contextPath}/products.xhtml">All Products</a></li>
+            <li><a href="#">Orders</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" data-toggle="modal" data-target="#cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart (<span class="total-count"></span>)</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         </ul>
@@ -56,12 +57,12 @@
 
         <div class="row product-list">
             <ui:repeat value="#{productBean.products}" var="product">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <section class="panel">
                         <div class="pro-img-box">
                             <img src="http://localhost:8080/gestion_de_stock_war_exploded/#{product.path}" alt=""
                                  height="220"/>
-                            <a href="#" class="adtocart">
+                            <a href="#" class="adtocart add-to-cart" data-min="0" data-max="${product.quantity}" data-id='${product.id}' data-name='${product.name}' data-price='#{product.price}'>
                                 <i class="fa fa-shopping-cart"></i>
                             </a>
                         </div>
@@ -72,7 +73,16 @@
                                     #{product.name}
                                 </a>
                             </h4>
-                            <p class="price">#{product.price}</p>
+                            <p class="price">#{product.price} DH</p>
+                            <ui:fragment rendered="#{product.quantity ge 10}">
+                                <span class="label label-success">#{product.inventoryStatus}</span>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{product.quantity le 0}">
+                                <span class="label label-default">#{product.inventoryStatus}</span>
+                            </ui:fragment>
+                            <ui:fragment rendered="#{product.quantity gt 0 and product.quantity lt 10}">
+                                <span class="label label-warning">#{product.inventoryStatus}</span>
+                            </ui:fragment>
                         </div>
                     </section>
                 </div>
@@ -81,4 +91,29 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cart</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="show-cart table">
+
+                </table>
+                <div>Total price: <span class="total-cart"></span> DH</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a id="order-button" href='#{request.contextPath}/products.xhtml?productsToOrder=' type="button" class="btn btn-primary" onclick="orderProducts(event, this)">Order now</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="app.js" type="application/javascript"></script>
 </html>

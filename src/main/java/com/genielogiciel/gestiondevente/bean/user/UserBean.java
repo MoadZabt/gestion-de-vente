@@ -2,14 +2,11 @@ package com.genielogiciel.gestiondevente.bean.user;
 
 import com.genielogiciel.gestiondevente.domain.Product;
 import com.genielogiciel.gestiondevente.domain.User;
-import com.genielogiciel.gestiondevente.model.ProductModel;
+import com.genielogiciel.gestiondevente.model.ProductModelGS;
 import com.genielogiciel.gestiondevente.service.UserService;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,7 +20,7 @@ public class UserBean implements Serializable {
 
     private UserService userService = new UserService();
 
-    private ProductModel productModel = new ProductModel();
+    private ProductModelGS productModel = new ProductModelGS();
 
     private List<Product> products;
 

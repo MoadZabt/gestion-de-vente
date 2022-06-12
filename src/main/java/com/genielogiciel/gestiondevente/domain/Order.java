@@ -4,6 +4,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -24,15 +25,16 @@ public class Order {
     @ColumnDefault(value = "0")
     private boolean shipped;
 
-    @OneToOne(cascade = {
-            CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST
+    @OneToMany(cascade = {
+            CascadeType.ALL
+    }, mappedBy = "order")
+    private List<OrderDetails> orderDetails;
+
+    @ManyToOne(cascade = {
+            CascadeType.ALL
     })
     @JoinColumn(name = "user_id")
     private User user;
-
 
     public boolean isShipped() {
         return shipped;
@@ -66,5 +68,23 @@ public class Order {
     public void setTotalPrice(float totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+    public List<OrderDetails> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetails> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 
 }

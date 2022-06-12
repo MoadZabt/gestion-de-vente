@@ -10,13 +10,13 @@ import javax.servlet.ServletContext;
 import java.util.List;
 
 
-public abstract class AbstractModel<T> {
+public abstract class AbstractModelGS<T> {
 
     private Class<T> entity;
     protected ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-    protected SessionFactory sessionFactory = (SessionFactory) servletContext.getAttribute("SessionFactory");
+    protected SessionFactory sessionFactory = (SessionFactory) servletContext.getAttribute("SessionFactoryGS");
 
-    public AbstractModel(Class<T> entity) {
+    public AbstractModelGS(Class<T> entity) {
         this.entity = entity;
     }
 

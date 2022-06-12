@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderModel extends AbstractModel<Order>{
+public class OrderModel extends AbstractModel<Order> {
 
     public OrderModel(){
         super(Order.class);
