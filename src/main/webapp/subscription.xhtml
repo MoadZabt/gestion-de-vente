@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Material Login</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css" />
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script  type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <!--this Jquery script for calender-->
+    <script type="application/x-javascript" src="js/formatDatePicker.js"></script>
+</h:head>
+<h:body styleClass="cyan lighten-5">
+
+    <div class="valign-wrapper" id="login-page">
+        <div class="container">
+            <div class="center-align">
+                <div class="row">
+                    <div class="col s6 offset-s3">
+                        <div class="card">
+                            <div class="card-content">
+                                <p:avatar icon="pi pi-user" styleClass="p-mr-2" size="xlarge" shape="circle" />
+                                <div class="left-align">
+                                    <h:form id="form-login">
+                                        <p:growl autoUpdate="true" />
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <h:outputLabel for="username" value="Username : " styleClass="control-label col-sm-2"/>
+                                                <p:inputText id="username"
+                                                             value="#{userBean.user.username}"
+                                                             required="true"
+                                                             requiredMessage="please enter your username">
+                                                </p:inputText>
+                                            </div>
+                                            <div class="col s12">
+                                                <h:outputLabel for="pwd1" value="Password :" />
+                                                <p:password id="pwd1" value="#{userBean.user.password}" feedback="false" match="pwd2" label="Password 1" required="true"/>
+                                            </div>
+                                            <div class="col s12">
+                                                <h:outputLabel for="pwd2" value="Confirm your password : " />
+                                                <p:password id="pwd2" value="#{userBean.user.password}" feedback="false" label="Password 2" required="true"/>
+                                                <h:message for="pwd2" errorClass="invalid" id="password2Error" />
+                                            </div>
+                                            <div class="col s12">
+                                                <h:outputLabel for="email" value="Email : " styleClass="control-label col-sm-2"/>
+                                                <p:inputText id="email"
+                                                             value="#{userBean.user.email}"
+                                                             required="true"
+                                                             requiredMessage="please enter your email"
+                                                >
+                                                </p:inputText>
+                                            </div>
+                                            <div class="col s12">
+                                                <p:outputLabel for="Birthday" value="Birthday" />
+                                                <p:inputText id="Birthday"
+                                                             value="#{userBean.user.birthday}"
+                                                             styleClass="form-control datepicker"
+                                                             required="true"
+                                                             requiredMessage="please enter your birthday"
+                                                ></p:inputText>
+                                            </div>
+                                            <div class="col s12">
+                                                <p:outputLabel for="Number" value="Phone Number :" styleClass="control-label col-sm-2"/>
+                                                <p:inputNumber id="Number"
+                                                               value="#{userBean.user.number}"
+                                                               requiredMessage="Must put a value"
+                                                               maxlength="10"
+                                                               maxValue="9999999999"
+                                                               thousandSeparator=""
+                                                               decimalPlaces="0"
+                                                ></p:inputNumber>
+                                            </div>
+                                            <div class="col s12">
+                                                <p:outputLabel for="adress" value="Shipping adress : " styleClass="control-label col-sm-2"/>
+                                                <p:inputText id="adress"
+                                                             value="#{userBean.user.adress}"
+                                                             required="true"
+                                                             requiredMessage="please enter your shipping adress"
+                                                ></p:inputText>
+                                            </div>
+
+                                            <div class="col s12 input-field">
+                                                <p:commandButton value="Submit"  action="#{userBean.addUser()}"
+                                                                 oncomplete="handleLoginRequest(xhr, status, args)" styleClass="btn btn-large"  />
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</h:body>
+<!--this is for the script we need -->
+<script type="text/javascript" src="https://examples.javacodegeeks.com/wp-content/litespeed/localres/aHR0cHM6Ly9jb2RlLmpxdWVyeS5jb20vjquery-1.12.4.js" />
+<script type="text/javascript" src="https://examples.javacodegeeks.com/wp-content/litespeed/localres/aHR0cHM6Ly9jb2RlLmpxdWVyeS5jb20vui/1.12.1/jquery-ui.js" />
+<link rel="stylesheet" href="https://examples.javacodegeeks.com/wp-content/litespeed/localres/aHR0cHM6Ly9jb2RlLmpxdWVyeS5jb20vui/1.12.1/themes/base/jquery-ui.css" />
+</html>

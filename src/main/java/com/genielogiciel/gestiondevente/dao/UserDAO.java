@@ -20,18 +20,21 @@ public class UserDAO implements UserDAOInterface{
 
     public UserDAO() {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-        this.sessionFactory = (SessionFactory) servletContext.getAttribute("SessionFactory");
+        this.sessionFactory = (SessionFactory) servletContext.getAttribute("SessionFactoryGV");
         this.currentSession = sessionFactory.getCurrentSession();
     }
 
     @Override
     public Long create(User user) {
         return (Long) currentSession.save(user);
+
     }
 
     @Override
     public void update(User admin) {
         currentSession.saveOrUpdate(admin);
+    public void update(User user) {
+        currentSession.saveOrUpdate(user);
     }
 
     @Override
@@ -54,7 +57,7 @@ public class UserDAO implements UserDAOInterface{
 
     @Override
     public User findByUsernameAndPassword(String username, String password) {
-        String hql = "FROM User U WHERE U.username=:username AND U.password=:password";
+        String hql = "FROM User U WHERE U.username=:username AND U.password=:password ";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter("username", username);
         query.setParameter("password", password);
