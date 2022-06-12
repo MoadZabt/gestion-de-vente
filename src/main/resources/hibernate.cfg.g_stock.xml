@@ -17,7 +17,7 @@
             org.hibernate.context.internal.ThreadLocalSessionContext
         </property>
 
-        <mapping class="com.genielogiciel.gestiondevente.domain.Order"/>
+
         <mapping class="com.genielogiciel.gestiondevente.domain.Product"/>
 
     </session-factory>

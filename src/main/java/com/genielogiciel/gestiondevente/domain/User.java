@@ -3,6 +3,7 @@ package com.genielogiciel.gestiondevente.domain;
 import javax.faces.bean.ManagedBean;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -17,6 +18,15 @@ public class User implements Serializable {
 
     @Column(name = "password")
     private String password;
+
+    @OneToMany(cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST
+    })
+    @JoinColumn(name = "order_id")
+    private List<Order> order;
 
     public Long getId() {
         return id;
@@ -41,4 +51,13 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Order> order) {
+        this.order = order;
+    }
+
 }
