@@ -129,5 +129,50 @@ public abstract class AbstractModel<T> {
         return result;
     }
 
+    public List<T> findAllPaginated(int fromRow, int toRow) {
+        List<T> result = null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from " + entity.getName());
+            query.setFirstResult(fromRow);
+            query.setMaxResults(toRow);
+            result = query.list();
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = null;
+            if(transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+        return result;
+    }
+
+    public Long size() {
+        Long result = null;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("select count(*) from " + entity.getName());
+            result = (Long) query.uniqueResult();
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = null;
+            if(transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+        return result;
+    }
 
 }

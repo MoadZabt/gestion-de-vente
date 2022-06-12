@@ -9,5 +9,7 @@ public class ProductModel extends AbstractModel<Product> implements Serializable
     public ProductModel(){
         super(Product.class);
     }
+
+
 }
 
