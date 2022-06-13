@@ -11,7 +11,7 @@ public class HibernateServletContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        SessionFactory sf = (SessionFactory) sce.getServletContext().getAttribute("SessionFactory");
+        SessionFactory sf = (SessionFactory) sce.getServletContext().getAttribute("SessionFactoryGV");
         sf.close();
         SessionFactory sfgs = (SessionFactory) sce.getServletContext().getAttribute("SessionFactoryGS");
         sfgs.close();
@@ -20,7 +20,7 @@ public class HibernateServletContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         SessionFactory sessionFactory = createSessionFactory();
-        sce.getServletContext().setAttribute("SessionFactory", sessionFactory);
+        sce.getServletContext().setAttribute("SessionFactoryGV", sessionFactory);
         SessionFactory sessionFactoryGS = createGStockSessionFactory();
         sce.getServletContext().setAttribute("SessionFactoryGS", sessionFactoryGS);
     }

@@ -15,11 +15,18 @@ public class UserService implements Serializable {
         userDAO = new UserDAO();
     }
 
-    public Long create(User user) {
+    public void create(User user) {
         userDAO.openCurrentSessionWithTransaction();
-        Long userCreatedId = userDAO.create(user);
+        userDAO.create(user);
         userDAO.closeCurrentSessionWithTransaction();
-        return userCreatedId;
+
+    }
+
+    public void update(User user){
+        userDAO.openCurrentSessionWithTransaction();
+        userDAO.update(user);
+        userDAO.closeCurrentSessionWithTransaction();
+
     }
 
     public User findByUsernameAndPassword(String username, String password) {

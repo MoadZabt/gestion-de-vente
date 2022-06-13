@@ -96,6 +96,19 @@
       <artifactId>jsp-api</artifactId>
       <version>2.2</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/javax.faces/jsf-api -->
+    <dependency>
+      <groupId>javax.faces</groupId>
+      <artifactId>jsf-api</artifactId>
+      <version>2.1</version>
+      <scope>provided</scope>
+    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.omnifaces</groupId>-->
+<!--      <artifactId>omnifaces</artifactId>-->
+<!--      <version>3.13.3</version>-->
+<!--    </dependency>-->
+
 
     <dependency>
       <groupId>org.primefaces.themes</groupId>
