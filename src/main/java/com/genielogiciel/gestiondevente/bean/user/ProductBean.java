@@ -104,7 +104,7 @@ public class ProductBean implements Serializable {
         Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
         this.currentPage = Integer.parseInt(params.get("currentPage") == null ? "0" : params.get("currentPage"));
         String productsToOrder = params.get("productsToOrder");
-        if(productsToOrder != null) {
+        if(productsToOrder != null && !productsToOrder.equals("[]")) {
             JSONArray jsonArray = new JSONArray(productsToOrder);
             List<OrderDetails> orderDetailsList = new ArrayList<>();
             List<Order> orderList = new ArrayList<>();
