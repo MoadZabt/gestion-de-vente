@@ -30,7 +30,7 @@
         </div>
         <ul class="nav navbar-nav">
             <li class="#{request.requestURI.contains('products.xhtml') ? 'active' : ''}"><a href="#{request.contextPath}/products.xhtml">All Products</a></li>
-            <li><a href="#">Orders</a></li>
+            <li class="#{request.requestURI.contains('orders.xhtml') ? 'active' : ''}"><a href="#{request.contextPath}/orders.xhtml">Orders</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#" data-toggle="modal" data-target="#cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart (<span class="total-count"></span>)</a></li>

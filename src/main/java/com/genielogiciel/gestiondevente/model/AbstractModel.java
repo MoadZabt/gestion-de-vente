@@ -67,18 +67,17 @@ public abstract class AbstractModel<T> {
         return result;
     }
 
-    public boolean create(T entity) {
-        boolean result = true;
+    public Long create(T entity) {
+        Long result = null;
         Session session = null;
         Transaction transaction = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.save(entity);
+            result = (Long) session.save(entity);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            result = false;
             if (transaction != null) {
                 transaction.rollback();
             }

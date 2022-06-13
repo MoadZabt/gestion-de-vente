@@ -1,19 +1,20 @@
 package com.genielogiciel.gestiondevente.model;
 
 import com.genielogiciel.gestiondevente.domain.Order;
+import com.genielogiciel.gestiondevente.domain.OrderGS;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderModel extends AbstractModel<Order> {
+public class OrderModelGS extends AbstractModelGS<OrderGS> {
 
-    public OrderModel(){
-        super(Order.class);
+    public OrderModelGS(){
+        super(OrderGS.class);
     }
 
-    public List<Order> findByDate(LocalDate date) {
-        List<Order> orderInDate = new ArrayList<>();
+    public List<OrderGS> findByDate(LocalDate date) {
+        List<OrderGS> orderInDate = new ArrayList<>();
         findAll().forEach(order -> {
             if(order.getShippingDate().isEqual(date)) {
                 orderInDate.add(order);

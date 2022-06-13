@@ -19,7 +19,7 @@ public class OrderDetails {
     @ColumnDefault(value = "0")
     private float totalPrice;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="order_id")
     private Order order;
 

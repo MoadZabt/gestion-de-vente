@@ -8,14 +8,29 @@ import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class OrderGS {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
+    private int quantity;
+
+    @Column
+    private String shippingAddress;
+
+    @Column
     private LocalDate shippingDate;
+
+    @OneToOne(cascade = {
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH,
+            CascadeType.PERSIST
+    })
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Column(name = "total_price")
     @ColumnDefault(value = "0")
@@ -24,17 +39,6 @@ public class Order {
     @Column(name = "shipped")
     @ColumnDefault(value = "0")
     private boolean shipped;
-
-    @OneToMany(cascade = {
-            CascadeType.ALL
-    }, mappedBy = "order")
-    private List<OrderDetails> orderDetails;
-
-    @ManyToOne(cascade = {
-            CascadeType.ALL
-    })
-    @JoinColumn(name = "user_id")
-    private User user;
 
     public boolean isShipped() {
         return shipped;
@@ -52,6 +56,13 @@ public class Order {
         this.id = id;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public LocalDate getShippingDate() {
         return shippingDate;
@@ -59,6 +70,22 @@ public class Order {
 
     public void setShippingDate(LocalDate shippingDate) {
         this.shippingDate = shippingDate;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public float getTotalPrice() {
@@ -69,22 +96,15 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public List<OrderDetails> getOrderDetails() {
-        return orderDetails;
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                ", shippingAddress='" + shippingAddress + '\'' +
+                ", shippingDate=" + shippingDate +
+                ", product=" + product +
+                ", shipped=" + shipped +
+                '}';
     }
-
-    public void setOrderDetails(List<OrderDetails> orderDetails) {
-        this.orderDetails = orderDetails;
-    }
-
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-
 }

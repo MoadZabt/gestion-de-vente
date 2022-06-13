@@ -1,10 +1,12 @@
 package com.genielogiciel.gestiondevente.model;
 
 import com.genielogiciel.gestiondevente.domain.Order;
+import com.genielogiciel.gestiondevente.domain.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class OrderModel extends AbstractModel<Order> {
 
@@ -21,5 +23,15 @@ public class OrderModel extends AbstractModel<Order> {
         });
         System.out.println(orderInDate);
         return orderInDate;
+    }
+
+    public List<Order> findByUser(User user) {
+        List<Order> orderByUser = new ArrayList<>();
+        findAll().forEach(order -> {
+            if(Objects.equals(order.getUser().getId(), user.getId())) {
+                orderByUser.add(order);
+            }
+        });
+        return orderByUser;
     }
 }

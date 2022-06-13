@@ -1,11 +1,9 @@
 package com.genielogiciel.gestiondevente.bean.user;
 
-import com.genielogiciel.gestiondevente.domain.Order;
-import com.genielogiciel.gestiondevente.domain.OrderDetails;
-import com.genielogiciel.gestiondevente.domain.Product;
-import com.genielogiciel.gestiondevente.domain.User;
+import com.genielogiciel.gestiondevente.domain.*;
 import com.genielogiciel.gestiondevente.model.OrderDetailsModel;
 import com.genielogiciel.gestiondevente.model.OrderModel;
+import com.genielogiciel.gestiondevente.model.OrderModelGS;
 import com.genielogiciel.gestiondevente.model.ProductModelGS;
 import com.genielogiciel.gestiondevente.service.UserService;
 import org.primefaces.shaded.json.JSONArray;
@@ -24,13 +22,15 @@ import java.util.Map;
 @ViewScoped
 public class ProductBean implements Serializable {
 
-    private ProductModelGS productModel = new ProductModelGS();
+    private ProductModelGS productGSModel = new ProductModelGS();
 
     private OrderModel orderModel = new OrderModel();
 
     private OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
 
     private UserService userService = new UserService();
+
+    private OrderModelGS orderModelGS = new OrderModelGS();
 
     private List<Product> products;
 
@@ -108,33 +108,47 @@ public class ProductBean implements Serializable {
             JSONArray jsonArray = new JSONArray(productsToOrder);
             List<OrderDetails> orderDetailsList = new ArrayList<>();
             List<Order> orderList = new ArrayList<>();
-            User user = userService.findById(22L);
+            User user = userService.findById(1L);
             float totalPrice = 0.0f;
             System.out.println(jsonArray);
             for(int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = new JSONObject(jsonArray.get(i).toString());
-                Product product = productModel.find(Long.parseLong(jsonObject.get("id").toString()));
+                Product product = productGSModel.find(Long.parseLong(jsonObject.get("id").toString()));
                 int productQuantity = Integer.parseInt(jsonObject.get("count").toString());
                 OrderDetails orderDetails = new OrderDetails();
                 orderDetails.setProductId(product.getId());
                 orderDetails.setQuantity(productQuantity);
                 orderDetails.setTotalPrice(Float.parseFloat(jsonObject.get("total").toString()));
-                orderDetailsModel.create(orderDetails);
 
                 orderDetailsList.add(orderDetails);
                 totalPrice += orderDetails.getTotalPrice();
             }
             Order order = new Order();
-            order.setOrderDetails(orderDetailsList);
             order.setTotalPrice(totalPrice);
             order.setShipped(false);
             order.setShippingDate(LocalDate.now().plusDays(7));
             order.setUser(user);
             orderModel.create(order);
-            orderList.add(order);
+            for (OrderDetails orderDetails: orderDetailsList) {
+                orderDetails.setOrder(order);
+                orderDetailsModel.create(orderDetails);
+                Product product = productGSModel.find(orderDetails.getProductId());
+                product.setQuantity(product.getQuantity() - orderDetails.getQuantity());
+                productGSModel.update(product);
+
+                OrderGS orderGS = new OrderGS();
+                orderGS.setProduct(product);
+                orderGS.setShippingAddress("TETOUAN");
+                orderGS.setQuantity(orderDetails.getQuantity());
+                orderGS.setShippingDate(order.getShippingDate());
+                orderGS.setTotalPrice(orderDetails.getTotalPrice());
+                orderGS.setShipped(false);
+                orderModelGS.create(orderGS);
+            }
+
         }
         this.rowsPerPage = 12;
-        this.totalRows = productModel.size();
+        this.totalRows = productGSModel.size();
         this.totalPages = (int) (Math.ceil((totalRows - 1) / rowsPerPage));
 
         for(int page = 0; page <= totalPages; page++){
@@ -142,7 +156,7 @@ public class ProductBean implements Serializable {
         }
 
         int fromRow = currentPage * rowsPerPage;
-        this.products = productModel.findAllPaginated(fromRow, rowsPerPage);
+        this.products = productGSModel.findAllPaginated(fromRow, rowsPerPage);
     }
 
 }

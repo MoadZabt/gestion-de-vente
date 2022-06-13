@@ -19,6 +19,7 @@
 
 
         <mapping class="com.genielogiciel.gestiondevente.domain.Product"/>
+        <mapping class="com.genielogiciel.gestiondevente.domain.OrderGS"/>
 
     </session-factory>
 </hibernate-configuration>
