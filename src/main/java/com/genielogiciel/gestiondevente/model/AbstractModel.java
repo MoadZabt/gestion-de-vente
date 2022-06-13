@@ -7,6 +7,7 @@ import org.hibernate.query.Query;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -14,14 +15,14 @@ public abstract class AbstractModel<T> {
 
     private Class<T> entity;
     protected ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-    protected SessionFactory sessionFactory = (SessionFactory) servletContext.getAttribute("SessionFactory");
+    protected SessionFactory sessionFactory = (SessionFactory) servletContext.getAttribute("SessionFactoryGV");
 
     public AbstractModel(Class<T> entity) {
         this.entity = entity;
     }
 
     public List<T> findAll() {
-        List<T> result = null;
+        List<T> result;
         Session session = null;
         Transaction transaction = null;
         try {
@@ -31,7 +32,7 @@ public abstract class AbstractModel<T> {
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            result = null;
+            result = new ArrayList<>();
             if(transaction != null) {
                 transaction.rollback();
             }

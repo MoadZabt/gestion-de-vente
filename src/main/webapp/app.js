@@ -86,7 +86,7 @@ var shoppingCart = (function() {
 
     // Clear cart
     obj.clearCart = function() {
-        cart = {};
+        cart = [];
         saveCart();
     }
 
@@ -216,6 +216,6 @@ displayCart();
 function orderProducts(event, element) {
     event.preventDefault();
     // alert(encodeURI(element.href + s));
-    shoppingCart.clearCart();
     window.location.href = encodeURI(element.href + JSON.stringify(shoppingCart.listCart()));
+    shoppingCart.clearCart();
 }

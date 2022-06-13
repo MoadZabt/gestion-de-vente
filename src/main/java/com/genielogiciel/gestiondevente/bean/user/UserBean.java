@@ -1,5 +1,6 @@
 package com.genielogiciel.gestiondevente.bean.user;
 
+import com.genielogiciel.gestiondevente.domain.Product;
 import com.genielogiciel.gestiondevente.domain.User;
 import com.genielogiciel.gestiondevente.model.ProductModelGS;
 import com.genielogiciel.gestiondevente.service.UserService;
