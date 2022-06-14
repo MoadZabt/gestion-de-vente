@@ -4,7 +4,8 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui" >
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/>
@@ -20,9 +21,16 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.0.272/jspdf.debug.js"></script>
 <h:head>
     <link rel="stylesheet" href="css/app.css"/>
 </h:head>
+<style type="text/css">
+    .ui-datatable,
+    .ui-datatable .ui-datatable-tablewrapper table {
+        font-size: 16px !important;
+    }
+</style>
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -43,27 +51,61 @@
     </div>
 </nav>
 <div class="container bootdey">
-    <div class="col-lg-12">
-        <table id="orders">
-            <tr>
-                <td>Id</td>
-                <td>Shipping Date</td>
-                <td>Total Price</td>
-            </tr>
-            <ui:repeat value="#{orderBean.orders}" var="order">
-                <tr>
-                    <td>#{order.id}</td>
-                    <td>#{order.shippingDate}</td>
-                    <td>#{order.totalPrice}</td>
-                </tr>
-            </ui:repeat>
-        </table>
-        <ui:repeat value="#{orderBean.orders}" var="order">
-            <p>#{order.id}</p>
-        </ui:repeat>
-    </div>
-</div>
+    <h:form>
+        <div class="card">
+            <div>
+                <button type="button" class="btn btn-danger" onclick="exportPDF()">Export PDF</button>
+            </div>
+            <br/>
 
+            <div class="d-none" id="export-products">
+                <p:dataTable var="order" value="#{orderBean.orders}">
+                    <p:column headerText="Id">
+                        <h:outputText value="#{order.id}" />
+                    </p:column>
+
+                    <p:column headerText="Shipping Date">
+                        <h:outputText value="#{order.shippingDate}" />
+                    </p:column>
+
+                    <p:column headerText="Total Price">
+                        <h:outputText value="#{order.totalPrice} DH" />
+                    </p:column>
+
+                </p:dataTable>
+            </div>
+        </div>
+    </h:form>
+</div>
+<script>
+    var jsPDF = new jsPDF({
+        orientation: 'landscape'
+    });
+    var elementHTML = document.getElementById('export-products').innerHTML;
+    var specialElementHandlers = {
+        '.no-export': function (element, renderer) {
+            return true;
+        }
+    };
+
+    function exportPDF() {
+        jsPDF.setFontSize(40);
+        jsPDF.text(35, 25, 'Your Orders');
+        jsPDF.setFontSize(20);
+        jsPDF.fromHTML(
+            elementHTML,
+            10,
+            20,
+            {
+                "width":700,
+                "elementHandler": specialElementHandlers
+            },
+            function (dispose) {
+                jsPDF.save("Orders.pdf");
+            }
+        )
+    }
+</script>
 <!-- Modal -->
 <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -88,11 +130,6 @@
         </div>
     </div>
 </div>
-<script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#orders').DataTable();
-    });
-</script>
+
 <script src="app.js" type="application/javascript"></script>
 </html>
