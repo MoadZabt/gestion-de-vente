@@ -7,6 +7,8 @@ import com.genielogiciel.gestiondevente.service.UserService;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.List;
 
@@ -22,7 +24,10 @@ public class OrderBean implements Serializable {
     private List<Order> orders;
 
     public OrderBean() {
-        User user = userService.findById(1L);
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpSession httpSession = (HttpSession) fc.getExternalContext().getSession(false);
+        User currentUser = (User) httpSession.getAttribute("currentUser");
+        User user = userService.findById(currentUser.getId());
         orders = orderModel.findByUser(user);
     }
 

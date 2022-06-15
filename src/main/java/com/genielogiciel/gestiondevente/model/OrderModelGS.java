@@ -3,6 +3,7 @@ package com.genielogiciel.gestiondevente.model;
 import com.genielogiciel.gestiondevente.domain.Order;
 import com.genielogiciel.gestiondevente.domain.OrderGS;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

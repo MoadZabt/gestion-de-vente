@@ -4,7 +4,7 @@ import com.genielogiciel.gestiondevente.domain.*;
 
 import java.io.Serializable;
 
-public class ProductModelGS extends AbstractModelGS<Product> implements Serializable {
+public class ProductModelGS extends AbstractModelGS<Product> {
 
     public ProductModelGS(){
         super(Product.class);

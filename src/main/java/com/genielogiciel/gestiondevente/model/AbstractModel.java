@@ -7,11 +7,12 @@ import org.hibernate.query.Query;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class AbstractModel<T> {
+public abstract class AbstractModel<T> implements Serializable {
 
     private Class<T> entity;
     protected ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();

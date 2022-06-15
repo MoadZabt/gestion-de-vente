@@ -3,10 +3,11 @@ package com.genielogiciel.gestiondevente.domain;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "order_details")
-public class OrderDetails {
+public class OrderDetails implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

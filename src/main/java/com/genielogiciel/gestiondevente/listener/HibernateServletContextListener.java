@@ -3,8 +3,10 @@ package com.genielogiciel.gestiondevente.listener;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import javax.faces.context.FacesContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.http.HttpSession;
 import java.net.URL;
 
 public class HibernateServletContextListener implements ServletContextListener {
@@ -21,6 +23,7 @@ public class HibernateServletContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         SessionFactory sessionFactory = createSessionFactory();
         sce.getServletContext().setAttribute("SessionFactoryGV", sessionFactory);
+
         SessionFactory sessionFactoryGS = createGStockSessionFactory();
         sce.getServletContext().setAttribute("SessionFactoryGS", sessionFactoryGS);
     }

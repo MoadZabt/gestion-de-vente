@@ -11,7 +11,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.jsp.PageContext;
 import java.util.List;
 
-public class UserDAO implements UserDAOInterface{
+public class UserDAO implements UserDAOInterface {
 
     private Session currentSession;
     private SessionFactory sessionFactory;

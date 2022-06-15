@@ -29,13 +29,29 @@
             <a class="navbar-brand" href="#{request.contextPath}/products.xhtml">Gestion De Vente</a>
         </div>
         <ul class="nav navbar-nav">
-            <li class="#{request.requestURI.contains('products.xhtml') ? 'active' : ''}"><a href="#{request.contextPath}/products.xhtml">All Products</a></li>
-            <li class="#{request.requestURI.contains('orders.xhtml') ? 'active' : ''}"><a href="#{request.contextPath}/orders.xhtml">Orders</a></li>
+            <li class="#{request.requestURI.contains('products.xhtml') ? 'active' : ''}"><a
+                    href="#{request.contextPath}/products.xhtml">All Products</a></li>
+            <li class="#{request.requestURI.contains('orders.xhtml') ? 'active' : ''}"><a
+                    href="#{request.contextPath}/orders.xhtml">Orders</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" data-toggle="modal" data-target="#cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart (<span class="total-count"></span>)</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#cart"><span
+                    class="glyphicon glyphicon-shopping-cart"></span> Cart (<span class="total-count"></span>)</a></li>
+            <ui:fragment rendered='#{session.getAttribute("currentUser") eq null}'>
+                <li><a href="#{request.contextPath}/subscription.xhtml"><span
+                        class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="#{request.contextPath}/login.xhtml"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                </li>
+            </ui:fragment>
+            <ui:fragment rendered='#{session.getAttribute("currentUser") ne null}'>
+                <li><a href="#{request.contextPath}/update-user.xhtml"><span class="glyphicon glyphicon-user"></span> #{session.getAttribute('currentUser').username}</a></li>
+                <li>
+                    <h:form>
+                        <h:commandLink action="#{loginUserBean.logout}"><span
+                                class="glyphicon glyphicon glyphicon-log-out"></span> Logout</h:commandLink>
+                    </h:form>
+                </li>
+            </ui:fragment>
         </ul>
     </div>
 </nav>
@@ -47,9 +63,13 @@
                     <ul class="pagination pagination-sm pro-page-list">
                         <li><a href="#{request.contextPath}/products.xhtml?currentPage=0">first</a></li>
                         <ui:repeat value="#{productBean.pages}" var="page">
-                            <li class="#{page == productBean.currentPage ? 'active' : ''}"><a href="#{request.contextPath}/products.xhtml?currentPage=#{page}">#{page + 1}</a></li>
+                            <li class="#{page == productBean.currentPage ? 'active' : ''}"><a
+                                    href="#{request.contextPath}/products.xhtml?currentPage=#{page}">#{page + 1}</a>
+                            </li>
                         </ui:repeat>
-                        <li><a href="#{request.contextPath}/products.xhtml?currentPage=#{productBean.totalPages}">last</a></li>
+                        <li>
+                            <a href="#{request.contextPath}/products.xhtml?currentPage=#{productBean.totalPages}">last</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -62,7 +82,8 @@
                         <div class="pro-img-box">
                             <img src="http://localhost:8080/gestion_de_stock_war_exploded/#{product.path}" alt=""
                                  height="220"/>
-                            <a href="#" class="adtocart add-to-cart" data-min="0" data-max="${product.quantity}" data-id='${product.id}' data-name='${product.name}' data-price='#{product.price}'>
+                            <a href="#" class="adtocart add-to-cart" data-min="0" data-max="${product.quantity}"
+                               data-id='${product.id}' data-name='${product.name}' data-price='#{product.price}'>
                                 <i class="fa fa-shopping-cart"></i>
                             </a>
                         </div>
@@ -73,7 +94,7 @@
                                     #{product.name}
                                 </a>
                             </h4>
-                            <p class="price">#{product.price} DH</p>
+                            <p class="price">#{product.price}0 DH</p>
                             <ui:fragment rendered="#{product.quantity ge 10}">
                                 <span class="label label-success">#{product.inventoryStatus}</span>
                             </ui:fragment>
@@ -109,7 +130,14 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <a id="order-button" href='#{request.contextPath}/products.xhtml?productsToOrder=' type="button" class="btn btn-primary" onclick="orderProducts(event, this)">Order now</a>
+                <ui:fragment rendered='#{session.getAttribute("currentUser") eq null}'>
+                    <a id="login" href='#{request.contextPath}/login.xhtml' type="button"
+                       class="btn btn-primary">Login</a>
+                </ui:fragment>
+                <ui:fragment rendered='#{session.getAttribute("currentUser") ne null}'>
+                    <a id="order-button" href='#{request.contextPath}/products.xhtml?productsToOrder=' type="button"
+                       class="btn btn-primary" onclick="orderProducts(event, this)">Order now</a>
+                </ui:fragment>
             </div>
         </div>
     </div>

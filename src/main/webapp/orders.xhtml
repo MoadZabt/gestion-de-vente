@@ -45,8 +45,20 @@
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#" data-toggle="modal" data-target="#cart"><span
                     class="glyphicon glyphicon-shopping-cart"></span> Cart (<span class="total-count"></span>)</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <ui:fragment rendered='#{session.getAttribute("currentUser") eq null}'>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="#{request.contextPath}/login.xhtml"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                </li>
+            </ui:fragment>
+            <ui:fragment rendered='#{session.getAttribute("currentUser") ne null}'>
+                <li><a href="#"><span class="glyphicon glyphicon-user"></span> #{session.getAttribute('currentUser').username}</a></li>
+                <li>
+                    <h:form>
+                        <h:commandLink action="#{loginUserBean.logout}"><span
+                                class="glyphicon glyphicon glyphicon-log-out"></span> Logout</h:commandLink>
+                    </h:form>
+                </li>
+            </ui:fragment>
         </ul>
     </div>
 </nav>

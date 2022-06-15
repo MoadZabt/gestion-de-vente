@@ -22,7 +22,7 @@ public class UserService implements Serializable {
 
     }
 
-    public void update(User user){
+    public void update(User user) {
         userDAO.openCurrentSessionWithTransaction();
         userDAO.update(user);
         userDAO.closeCurrentSessionWithTransaction();

@@ -23,26 +23,28 @@
                             <div class="card-content">
                                 <p:avatar icon="pi pi-user" styleClass="p-mr-2" size="xlarge" shape="circle" />
                                 <div class="left-align">
-                                    <h:form id="form-login">
+                                    <h:form>
+
                                         <p:growl autoUpdate="true" />
                                         <div class="row">
                                             <div class="col s12">
                                                 <h:outputLabel for="username" value="User" />
-                                                <h:inputText id="username" value="#{userBean.user.username}" required="true" requiredMessage="User required" />
+                                                <h:inputText id="username" value="#{loginUserBean.username}" required="true" requiredMessage="User required" />
                                             </div>
                                             <div class="col s12">
                                                 <h:outputLabel for="password" value="Password" />
-                                                <h:inputSecret id="password" required="true" value="#{userBean.user.password}" requiredMessage="Password required!" />
+                                                <h:inputSecret id="password" required="true" value="#{loginUserBean.password}" requiredMessage="Password required!" />
                                             </div>
                                             <div class="col s12">
-                                                <p:commandButton value="Log in"  action="#{userBean.login}"
-                                                                 oncomplete="handleLoginRequest(xhr, status, args)" styleClass="btn btn-large" />
+
                                             </div>
                                             <div class="col s12 input-field">
                                                 <h:link value = "Sign up  if you are not subscribed  " outcome = "subscription" />
                                             </div>
 
                                         </div>
+                                        <h:commandButton value="Log in"  action="#{loginUserBean.login}"
+                                                         styleClass="btn btn-large" />
                                     </h:form>
                                 </div>
                             </div>

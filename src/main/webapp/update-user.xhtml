@@ -31,24 +31,24 @@
                                             <div class="col s12">
                                                 <h:outputLabel for="username" value="Username : " styleClass="control-label col-sm-2"/>
                                                 <h:inputText id="username"
-                                                             value="#{loginUserBean.user.username}"
+                                                             value="#{session.getAttribute('currentUser').username}"
                                                              required="true"
                                                              requiredMessage="please enter your username">
                                                 </h:inputText>
                                             </div>
                                             <div class="col s12">
                                                 <h:outputLabel for="pwd1" value="Password :" />
-                                                <p:password id="pwd1" value="#{loginUserBean.user.password}" feedback="false" match="pwd2" label="Password 1" required="true"/>
+                                                <p:password id="pwd1" value="#{session.getAttribute('currentUser').password}" feedback="false" match="pwd2" label="Password 1" required="true"/>
                                             </div>
                                             <div class="col s12">
                                                 <h:outputLabel for="pwd2" value="Confirm your password : " />
-                                                <p:password id="pwd2" value="#{loginUserBean.user.password}" feedback="false" label="Password 2" required="true"/>
+                                                <p:password id="pwd2" value="#{session.getAttribute('currentUser').password}" feedback="false" label="Password 2" required="true"/>
                                                 <h:message for="pwd2" errorClass="invalid" id="password2Error" />
                                             </div>
                                             <div class="col s12">
                                                 <h:outputLabel for="email" value="Email : " styleClass="control-label col-sm-2"/>
                                                 <p:inputText id="email"
-                                                             value="#{loginUserBean.user.email}"
+                                                             value="#{session.getAttribute('currentUser').email}"
                                                              required="true"
                                                              requiredMessage="please enter your email"
                                                 >
@@ -57,7 +57,7 @@
                                             <div class="col s12">
                                                 <p:outputLabel for="Birthday" value="Birthday" />
                                                 <p:inputText id="Birthday"
-                                                             value="#{loginUserBean.user.birthday}"
+                                                             value="#{session.getAttribute('currentUser').birthday}"
                                                              styleClass="form-control datepicker"
                                                              required="true"
                                                              requiredMessage="please enter your birthday"
@@ -65,19 +65,19 @@
                                             </div>
                                             <div class="col s12">
                                                 <p:outputLabel for="Number" value="Phone Number :" styleClass="control-label col-sm-2"/>
-                                                <h:inputText id="Number" value="#{loginUserBean.user.number}"/>
+                                                <h:inputText id="Number" value="#{session.getAttribute('currentUser').number}"/>
                                             </div>
                                             <div class="col s12">
                                                 <p:outputLabel for="adress" value="Shipping adress : " styleClass="control-label col-sm-2"/>
                                                 <p:inputText id="adress"
-                                                             value="#{loginUserBean.user.adress}"
+                                                             value="#{session.getAttribute('currentUser').adress}"
                                                              required="true"
                                                              requiredMessage="please enter your shipping adress"
                                                 ></p:inputText>
                                             </div>
 
                                             <div class="col s12 input-field">
-                                                <p:commandButton value="Submit"  action="#{loginUserBean.addUser}"
+                                                <p:commandButton value="Submit"  action="#{loginUserBean.updateUser}"
                                                                  oncomplete="handleLoginRequest(xhr, status, args)" styleClass="btn btn-large"  />
                                             </div>
                                         </div>
